@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta con Scroll</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff0f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Contenedor principal */
+        .envelope-container {
+            position: relative;
+            width: 300px;
+            height: 180px;
+            margin-top: 100px;
+        }
+
+        /* Parte trasera del sobre */
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff9bb8, #ff7aa2);
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        /* Tapa del sobre (triángulo) */
+        .envelope-lid {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #ff4081;
+            transform-origin: top;
+            transition: all 0.6s ease;
+            z-index: 20;
+            top: 0;
+        }
+
+        /* Carta */
+        .letter {
+            position: absolute;
+            width: 280px;
+            height: 160px; /* Altura inicial */
+            background: white;
+            border-radius: 3px;
+            padding: 15px;
+            box-sizing: border-box;
+            top: 10px;
+            left: 10px;
+            transform: translateY(0);
+            transition: all 0.8s ease 0.3s;
+            z-index: 15;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Cambiado a auto para el scroll */
+        }
+
+        /* Cuando el sobre está abierto */
+        .open .envelope-lid {
+            transform: rotateX(180deg);
+            z-index: 5;
+        }
+
+        .open .letter {
+            transform: translateY(-200px);
+            height: 350px; /* Altura cuando está abierto */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 25;
+            overflow-y: auto; /* Scroll vertical cuando hay mucho contenido */
+        }
+
+        /* Contenido de la carta */
+        .letter-content {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.8s;
+            min-height: 100%; /* Asegura que el contenido ocupe espacio */
+        }
+
+        .open .letter-content {
+            opacity: 1;
+        }
+
+        .letter h1 {
+            color: #e91e63;
+            text-align: center;
+            margin-bottom: 15px;
+            position: sticky;
+            top: 0;
+            background: white;
+            padding-bottom: 10px;
+            z-index: 1;
+        }
+
+        .letter p {
+            color: #555;
+            line-height: 1.5;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .signature {
+            font-style: italic;
+            text-align: right;
+            margin-top: 20px;
+            color: #e91e63;
+            font-weight: bold;
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding-top: 10px;
+        }
+
+        .heart {
+            color: #e91e63;
+            animation: beat 1s infinite alternate;
+        }
+
+        @keyframes beat {
+            to { transform: scale(1.3); }
+        }
+
+        /* Flores */
+        .flower {
+            position: absolute;
+            font-size: 0;
+            opacity: 0;
+            z-index: 1;
+            animation: flowerFall 4s linear forwards;
+        }
+
+        @keyframes flowerFall {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+                font-size: 0px;
+            }
+            10% {
+                opacity: 1;
+                font-size: 24px;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-150px) rotate(360deg);
+                font-size: 28px;
+            }
+        }
+
+        /* Instrucción */
+        .instruction {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: #e91e63;
+            font-style: italic;
+        }
+
+        /* Estilo personalizado para el scroll */
+        .letter::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .letter::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .letter::-webkit-scrollbar-thumb {
+            background: #ff9bb8;
+            border-radius: 3px;
+        }
+
+        .letter::-webkit-scrollbar-thumb:hover {
+            background: #ff7aa2;
+        }
+    </style>
+</head>
+<body>
+    <!-- ESTRUCTURA MEJORADA -->
+    <div class="envelope-container" id="envelope">
+        <div class="envelope-back"></div>
+        <div class="letter">
+            <div class="letter-content">
+                <h1>Para mi cachetona <span class="heart">❤</span></h1>
+                <p>
+                    Querida <strong>Dani</strong>,<br><br>
+                    Para mi amor ❤<br><br>
+                    Hay algo en tu mirada que calma el mundo.<br>
+                    No es solo su color —es lo que despierta.<br>
+                    Cuando me miras, no necesito más luz,<br>
+                    porque todo cobra sentido.<br><br>
+                    
+                    Tus ojos no solo ven,<br>
+                    también abrazan, protegen, entienden.<br>
+                    Y en ellos encuentro un lugar donde quiero quedarme.<br>
+                    No hay rutina cuando estás cerca,<br>
+                    ni silencio que pese cuando me hablas sin palabras.<br><br>
+                    
+                    Amarte no es un acto, es un estado.<br>
+                    Y en ese estado, todo lo demás se vuelve claro.<br>
+                    Contigo, la vida se parece más a lo que imaginé.<br><br>
+                    
+                    Cada día a tu lado es un regalo que atesoro en mi corazón.<br>
+                    Eres la luz que ilumina mis días y la razón por la que sonrío.<br>
+                    No hay instante en que no piense en ti, en que no desee estar a tu lado.<br><br>
+                    
+                    Espero que esta carta te haga sentir todo el amor que llevo dentro por ti.<br>
+                    Eres mi sueño hecho realidad y mi mayor fortuna.<br>
+                </p>
+                <div class="signature">
+                    Con todo mi amor,<br>
+                    <strong>tu feo</strong>
+                </div>
+            </div>
+        </div>
+        <div class="envelope-lid"></div>
+    </div>
+
+    <div class="instruction" id="instruction">Haz clic en el sobre para abrirlo</div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+        const instruction = document.getElementById('instruction');
+        const flowers = ['🌸', '🌹', '🌺', '🌻', '🌼', '🌷', '💐'];
+        
+        // Función mejorada para crear flores
+        function createFlowers() {
+            // Limpiar flores existentes primero
+            document.querySelectorAll('.flower').forEach(flower => flower.remove());
+            
+            // Crear nuevas flores
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const flower = document.createElement('div');
+                    flower.className = 'flower';
+                    flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+                    
+                    // Posición inicial (abajo de la pantalla)
+                    flower.style.left = Math.random() * window.innerWidth + 'px';
+                    flower.style.top = window.innerHeight + 'px';
+                    
+                    // Animación única para cada flor
+                    flower.style.animationDelay = (Math.random() * 0.5) + 's';
+                    flower.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    
+                    document.body.appendChild(flower);
+                    
+                    // Eliminar después de la animación
+                    setTimeout(() => {
+                        if (flower.parentNode) flower.remove();
+                    }, 5000);
+                }, i * 150);
+            }
+        }
+
+        envelope.addEventListener('click', function() {
+            this.classList.toggle('open');
+            
+            if (this.classList.contains('open')) {
+                createFlowers();
+                instruction.textContent = "¡Esta carta es para ti!";
+            } else {
+                instruction.textContent = "Haz clic en el sobre para abrirlo";
+            }
+        });
+    </script>
+</body>
+</html>
