@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disparo Mágico a Corazón</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffcce6 0%, #ff99cc 100%);
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .scene {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .shooter {
+            position: absolute;
+            left: 15%;
+            bottom: 25%;
+            font-size: 80px;
+            transform: scaleX(-1);
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+            z-index: 10;
+            animation: slightBounce 2s infinite ease-in-out;
+        }
+        
+        .bullet {
+            position: absolute;
+            left: 22%;
+            bottom: 38%;
+            font-size: 30px;
+            opacity: 0;
+            z-index: 5;
+            filter: drop-shadow(0 0 3px #ff6600);
+        }
+        
+        .bullet-trail {
+            position: absolute;
+            width: 100px;
+            height: 10px;
+            background: linear-gradient(90deg, rgba(255,100,0,0.8) 0%, rgba(255,100,0,0) 100%);
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 0px;
+            color: #ff1a1a;
+            opacity: 0;
+            z-index: 20;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.7));
+            transform-origin: center;
+        }
+        
+        .sparkles {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            z-index: 15;
+        }
+        
+        .message {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .message h2 {
+            color: #ff1a1a;
+            margin: 0;
+            font-size: 28px;
+            background: linear-gradient(45deg, #ff1a1a, #ff6699);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .message p {
+            margin: 8px 0 0;
+            color: #666;
+        }
+        
+        @keyframes slightBounce {
+            0%, 100% { transform: scaleX(-1) translateY(0); }
+            50% { transform: scaleX(-1) translateY(-10px); }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes sparkle {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        
+        .restart-btn {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.8);
+            border: 2px solid #ff6699;
+            color: #ff3366;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .restart-btn:hover {
+            background: #ff6699;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="shooter">🔫</div>
+        <div class="bullet">✨</div>
+        <div class="bullet-trail"></div>
+        <div class="heart">❤️</div>
+        <div id="sparkles-container"></div>
+        <div class="message" id="message">
+            <h2>¡TE AMO!</h2>
+            <p>Eres lo mejor que me ha pasado ❤️</p>
+        </div>
+        <button class="restart-btn" id="restart-btn">Ver de nuevo</button>
+    </div>
+    
+    <script>
+        const shooter = document.querySelector('.shooter');
+        const bullet = document.querySelector('.bullet');
+        const bulletTrail = document.querySelector('.bullet-trail');
+        const heart = document.querySelector('.heart');
+        const message = document.getElementById('message');
+        const sparklesContainer = document.getElementById('sparkles-container');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        // Configuración inicial
+        let animationPlayed = false;
+        
+        // Iniciar animación
+        function startAnimation() {
+            // Resetear elementos
+            resetAnimation();
+            
+            // Animación del disparador
+            shooter.innerHTML = '🔫💥';
+            
+            // Mostrar bala y trayectoria
+            bullet.style.opacity = '1';
+            bulletTrail.style.opacity = '0.8';
+            
+            // Animación de la bala
+            const bulletAnimation = bullet.animate([
+                { left: '22%', bottom: '38%', opacity: 1 },
+                { left: '75%', bottom: '45%', opacity: 1 }
+            ], {
+                duration: 800,
+                easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
+            });
+            
+            // Animación del rastro de la bala
+            const trailAnimation = bulletTrail.animate([
+                { left: '22%', bottom: '38%', width: '0', opacity: 0.8 },
+                { left: '22%', bottom: '38%', width: '100px', opacity: 0.8 },
+                { left: '75%', bottom: '45%', width: '0', opacity: 0 }
+            ], {
+                duration: 800,
+                easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
+            });
+            
+            // Cuando termina la animación de la bala
+            bulletAnimation.onfinish = () => {
+                bullet.style.opacity = '0';
+                bulletTrail.style.opacity = '0';
+                
+                // Crear explosión de partículas
+                createParticles(heart, 15);
+                
+                // Mostrar corazón
+                heart.style.left = '75%';
+                heart.style.bottom = '45%';
+                heart.style.opacity = '1';
+                heart.style.fontSize = '0px';
+                
+                // Animación de crecimiento del corazón
+                const heartGrow = heart.animate([
+                    { fontSize: '0px', opacity: 1 },
+                    { fontSize: '120px', opacity: 1 }
+                ], {
+                    duration: 600,
+                    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                });
+                
+                heartGrow.onfinish = () => {
+                    // Animación de latido
+                    heart.style.animation = 'heartbeat 1s infinite';
+                    
+                    // Mostrar mensaje
+                    setTimeout(() => {
+                        message.style.opacity = '1';
+                        message.style.transform = 'translateX(-50%) translateY(-10px)';
+                        
+                        // Mostrar botón de reinicio
+                        setTimeout(() => {
+                            restartBtn.style.opacity = '1';
+                        }, 500);
+                    }, 300);
+                };
+            };
+            
+            animationPlayed = true;
+        }
+        
+        // Crear partículas de explosión
+        function createParticles(element, count) {
+            sparklesContainer.innerHTML = '';
+            
+            for (let i = 0; i < count; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkles';
+                sparkle.innerHTML = ['✨', '⭐', '⚡', '❣️', '🌟'][Math.floor(Math.random() * 5)];
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 50;
+                const duration = 800 + Math.random() * 500;
+                
+                sparkle.style.left = element.style.left;
+                sparkle.style.bottom = element.style.bottom;
+                sparkle.style.opacity = '1';
+                
+                sparkle.animate([
+                    { 
+                        transform: 'translate(0, 0) scale(0)',
+                        opacity: 1 
+                    },
+                    { 
+                        transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(1)`,
+                        opacity: 0 
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
+                });
+                
+                sparklesContainer.appendChild(sparkle);
+            }
+        }
+        
+        // Reiniciar animación
+        function resetAnimation() {
+            shooter.innerHTML = '🔫';
+            bullet.style.opacity = '0';
+            bullet.style.left = '22%';
+            bullet.style.bottom = '38%';
+            bulletTrail.style.opacity = '0';
+            bulletTrail.style.left = '22%';
+            bulletTrail.style.bottom = '38%';
+            bulletTrail.style.width = '0';
+            heart.style.opacity = '0';
+            heart.style.fontSize = '0px';
+            heart.style.animation = 'none';
+            message.style.opacity = '0';
+            message.style.transform = 'translateX(-50%)';
+            restartBtn.style.opacity = '0';
+            sparklesContainer.innerHTML = '';
+        }
+        
+        // Iniciar animación al cargar
+        window.onload = function() {
+            setTimeout(startAnimation, 1000);
+        };
+        
+        // Botón de reinicio
+        restartBtn.addEventListener('click', startAnimation);
+        
+        // Permitir reinicio haciendo clic en cualquier parte
+        document.addEventListener('click', function(e) {
+            if (e.target !== restartBtn && animationPlayed) {
+                startAnimation();
+            }
+        });
+    </script>
+</body>
+</html>
