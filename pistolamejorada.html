@@ -2,313 +2,342 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disparo Mágico a Corazón</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¡Feliz Cumpleaños! 🎂🎉</title>
     <style>
-        body {
+        :root {
+            --color-primary: #ff6b6b;
+            --color-secondary: #4ecdc4;
+            --color-accent: #ffe66d;
+            --text-color: #2d3436;
+        }
+        
+        * {
             margin: 0;
             padding: 0;
-            height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite, pulseBackground 10s ease infinite;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #ffcce6 0%, #ff99cc 100%);
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
+            color: var(--text-color);
+            padding: 20px;
+            perspective: 1000px;
         }
         
-        .scene {
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes pulseBackground {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+        
+        .container {
             position: relative;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .shooter {
-            position: absolute;
-            left: 15%;
-            bottom: 25%;
-            font-size: 80px;
-            transform: scaleX(-1);
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
             z-index: 10;
-            animation: slightBounce 2s infinite ease-in-out;
+            width: 100%;
+            max-width: 600px;
         }
         
-        .bullet {
-            position: absolute;
-            left: 22%;
-            bottom: 38%;
-            font-size: 30px;
-            opacity: 0;
-            z-index: 5;
-            filter: drop-shadow(0 0 3px #ff6600);
-        }
-        
-        .bullet-trail {
-            position: absolute;
-            width: 100px;
-            height: 10px;
-            background: linear-gradient(90deg, rgba(255,100,0,0.8) 0%, rgba(255,100,0,0) 100%);
-            border-radius: 50%;
-            opacity: 0;
-        }
-        
-        .heart {
-            position: absolute;
-            font-size: 0px;
-            color: #ff1a1a;
-            opacity: 0;
-            z-index: 20;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.7));
-            transform-origin: center;
-        }
-        
-        .sparkles {
-            position: absolute;
-            font-size: 20px;
-            opacity: 0;
-            z-index: 15;
-        }
-        
-        .message {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
+        h1 {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            margin: 0 0 20px 0;
+            animation: pulse 1.5s infinite, float 3s ease-in-out infinite;
+            color: #fff;
+            background: rgba(0,0,0,0.2);
             padding: 15px 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            opacity: 0;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            transform-style: preserve-3d;
         }
         
-        .message h2 {
-            color: #ff1a1a;
-            margin: 0;
-            font-size: 28px;
-            background: linear-gradient(45deg, #ff1a1a, #ff6699);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .message p {
-            margin: 8px 0 0;
-            color: #666;
-        }
-        
-        @keyframes slightBounce {
-            0%, 100% { transform: scaleX(-1) translateY(0); }
-            50% { transform: scaleX(-1) translateY(-10px); }
-        }
-        
-        @keyframes heartbeat {
+        @keyframes pulse {
             0% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.15); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
         
-        @keyframes sparkle {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-10px) rotateY(10deg); }
         }
         
-        .restart-btn {
+        .cake-container {
+            position: relative;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        .cake {
+            font-size: clamp(4rem, 15vw, 6rem);
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+            transition: transform 0.3s;
+        }
+        
+        .cake:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .candle {
             position: absolute;
-            bottom: 10%;
+            top: -10px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255,255,255,0.8);
-            border: 2px solid #ff6699;
-            color: #ff3366;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            opacity: 0;
-            transition: all 0.3s;
-            z-index: 100;
+            font-size: 1.5rem;
+            animation: flicker 1s infinite alternate;
         }
         
-        .restart-btn:hover {
-            background: #ff6699;
-            color: white;
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .message {
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            max-width: 100%;
+            margin: 20px auto;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transform-style: preserve-3d;
+            animation: slideIn 1s ease-out;
+            line-height: 1.6;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(50px) rotateX(30deg); opacity: 0; }
+            to { transform: translateY(0) rotateX(0); opacity: 1; }
+        }
+        
+        .message p {
+            margin-bottom: 15px;
+        }
+        
+        .signature {
+            font-style: italic;
+            font-weight: bold;
+            color: var(--color-accent);
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 60px;
+            border-radius: 50%;
+            animation: floatUp 15s linear infinite;
+            opacity: 0.8;
+            z-index: 1;
+        }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0.7;
+            animation: confettiFall 5s linear infinite;
+            z-index: 2;
+        }
+        
+        @keyframes confettiFall {
+            0% { 
+                transform: translateY(-100vh) rotate(0deg); 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh) rotate(360deg); 
+                opacity: 0;
+            }
+        }
+        
+        .btn {
+            background: var(--color-accent);
+            color: var(--text-color);
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .music-note {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: floatNote 3s linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes floatNote {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <div class="scene">
-        <div class="shooter">🔫</div>
-        <div class="bullet">✨</div>
-        <div class="bullet-trail"></div>
-        <div class="heart">❤️</div>
-        <div id="sparkles-container"></div>
-        <div class="message" id="message">
-            <h2>¡TE AMO!</h2>
-            <p>Eres lo mejor que me ha pasado ❤️</p>
+    <div class="container">
+        <h1>¡Feliz Cumpleaños! </h1>
+        
+        <div class="cake-container">
+            <div class="cake">🎂</div>
+            <div class="candle">🕯️</div>
         </div>
-        <button class="restart-btn" id="restart-btn">Ver de nuevo</button>
+        
+        <div class="message">
+            <p>✨ "Hoy celebramos el milagro de tu existencia. Cada risa, cada sueño, cada momento compartido contigo es un regalo. Que este nuevo año de vida esté lleno de magia, amor y aventuras inolvidables. ¡El mundo brilla más fuerte con tu luz!" ✨</p>
+            <p class="signature">Con cariño, TU FEO</p>
+        </div>
+        
+        <button class="btn" id="musicBtn">🎵 Activar Música</button>
+        <audio id="birthdaySong" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Tu navegador no soporta audio HTML5.
+        </audio>
     </div>
-    
+
     <script>
-        const shooter = document.querySelector('.shooter');
-        const bullet = document.querySelector('.bullet');
-        const bulletTrail = document.querySelector('.bullet-trail');
-        const heart = document.querySelector('.heart');
-        const message = document.getElementById('message');
-        const sparklesContainer = document.getElementById('sparkles-container');
-        const restartBtn = document.getElementById('restart-btn');
-        
-        // Configuración inicial
-        let animationPlayed = false;
-        
-        // Iniciar animación
-        function startAnimation() {
-            // Resetear elementos
-            resetAnimation();
+        // Crear globos
+        function createBalloons() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a18cd1', '#84fab0'];
+            const balloonCount = window.innerWidth < 600 ? 15 : 30;
             
-            // Animación del disparador
-            shooter.innerHTML = '🔫💥';
-            
-            // Mostrar bala y trayectoria
-            bullet.style.opacity = '1';
-            bulletTrail.style.opacity = '0.8';
-            
-            // Animación de la bala
-            const bulletAnimation = bullet.animate([
-                { left: '22%', bottom: '38%', opacity: 1 },
-                { left: '75%', bottom: '45%', opacity: 1 }
-            ], {
-                duration: 800,
-                easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
-            });
-            
-            // Animación del rastro de la bala
-            const trailAnimation = bulletTrail.animate([
-                { left: '22%', bottom: '38%', width: '0', opacity: 0.8 },
-                { left: '22%', bottom: '38%', width: '100px', opacity: 0.8 },
-                { left: '75%', bottom: '45%', width: '0', opacity: 0 }
-            ], {
-                duration: 800,
-                easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
-            });
-            
-            // Cuando termina la animación de la bala
-            bulletAnimation.onfinish = () => {
-                bullet.style.opacity = '0';
-                bulletTrail.style.opacity = '0';
-                
-                // Crear explosión de partículas
-                createParticles(heart, 15);
-                
-                // Mostrar corazón
-                heart.style.left = '75%';
-                heart.style.bottom = '45%';
-                heart.style.opacity = '1';
-                heart.style.fontSize = '0px';
-                
-                // Animación de crecimiento del corazón
-                const heartGrow = heart.animate([
-                    { fontSize: '0px', opacity: 1 },
-                    { fontSize: '120px', opacity: 1 }
-                ], {
-                    duration: 600,
-                    easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-                });
-                
-                heartGrow.onfinish = () => {
-                    // Animación de latido
-                    heart.style.animation = 'heartbeat 1s infinite';
-                    
-                    // Mostrar mensaje
-                    setTimeout(() => {
-                        message.style.opacity = '1';
-                        message.style.transform = 'translateX(-50%) translateY(-10px)';
-                        
-                        // Mostrar botón de reinicio
-                        setTimeout(() => {
-                            restartBtn.style.opacity = '1';
-                        }, 500);
-                    }, 300);
-                };
-            };
-            
-            animationPlayed = true;
-        }
-        
-        // Crear partículas de explosión
-        function createParticles(element, count) {
-            sparklesContainer.innerHTML = '';
-            
-            for (let i = 0; i < count; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'sparkles';
-                sparkle.innerHTML = ['✨', '⭐', '⚡', '❣️', '🌟'][Math.floor(Math.random() * 5)];
-                
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 50 + Math.random() * 50;
-                const duration = 800 + Math.random() * 500;
-                
-                sparkle.style.left = element.style.left;
-                sparkle.style.bottom = element.style.bottom;
-                sparkle.style.opacity = '1';
-                
-                sparkle.animate([
-                    { 
-                        transform: 'translate(0, 0) scale(0)',
-                        opacity: 1 
-                    },
-                    { 
-                        transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(1)`,
-                        opacity: 0 
-                    }
-                ], {
-                    duration: duration,
-                    easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)'
-                });
-                
-                sparklesContainer.appendChild(sparkle);
+            for (let i = 0; i < balloonCount; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.random() * 100 + 'vw';
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.animationDuration = Math.random() * 10 + 10 + 's';
+                balloon.style.animationDelay = Math.random() * 5 + 's';
+                balloon.style.width = Math.random() * 40 + 30 + 'px';
+                balloon.style.height = Math.random() * 50 + 40 + 'px';
+                document.body.appendChild(balloon);
             }
         }
         
-        // Reiniciar animación
-        function resetAnimation() {
-            shooter.innerHTML = '🔫';
-            bullet.style.opacity = '0';
-            bullet.style.left = '22%';
-            bullet.style.bottom = '38%';
-            bulletTrail.style.opacity = '0';
-            bulletTrail.style.left = '22%';
-            bulletTrail.style.bottom = '38%';
-            bulletTrail.style.width = '0';
-            heart.style.opacity = '0';
-            heart.style.fontSize = '0px';
-            heart.style.animation = 'none';
-            message.style.opacity = '0';
-            message.style.transform = 'translateX(-50%)';
-            restartBtn.style.opacity = '0';
-            sparklesContainer.innerHTML = '';
+        // Crear confeti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a18cd1', '#84fab0'];
+            const confettiCount = window.innerWidth < 600 ? 100 : 200;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+            }
         }
         
-        // Iniciar animación al cargar
+        // Crear notas musicales
+        function createMusicNotes() {
+            const notes = ['♪', '♫', '♩', '♬'];
+            const noteCount = 10;
+            
+            for (let i = 0; i < noteCount; i++) {
+                const note = document.createElement('div');
+                note.className = 'music-note hidden';
+                note.textContent = notes[Math.floor(Math.random() * notes.length)];
+                note.style.left = Math.random() * 80 + 10 + 'vw';
+                note.style.animationDuration = Math.random() * 3 + 2 + 's';
+                note.style.animationDelay = Math.random() * 3 + 's';
+                note.style.color = `hsl(${Math.random() * 360}, 80%, 60%)`;
+                document.body.appendChild(note);
+            }
+        }
+        
+        // Controlador de música
+        function setupMusic() {
+            const btn = document.getElementById('musicBtn');
+            const song = document.getElementById('birthdaySong');
+            const notes = document.querySelectorAll('.music-note');
+            
+            btn.addEventListener('click', function() {
+                if (song.paused) {
+                    song.play();
+                    btn.textContent = '🔇 Silenciar';
+                    notes.forEach(note => note.classList.remove('hidden'));
+                } else {
+                    song.pause();
+                    btn.textContent = '🎵 Activar Música';
+                    notes.forEach(note => note.classList.add('hidden'));
+                }
+            });
+        }
+        
+        // Iniciar todo al cargar
         window.onload = function() {
-            setTimeout(startAnimation, 1000);
+            createBalloons();
+            createConfetti();
+            createMusicNotes();
+            setupMusic();
+            
+            // Efecto de cursor de celebración
+            document.body.addEventListener('mousemove', function(e) {
+                if (Math.random() > 0.7) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'confetti';
+                    sparkle.style.left = e.clientX + 'px';
+                    sparkle.style.top = e.clientY + 'px';
+                    sparkle.style.width = '8px';
+                    sparkle.style.height = '8px';
+                    sparkle.style.animationDuration = '1s';
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        sparkle.remove();
+                    }, 1000);
+                }
+            });
         };
-        
-        // Botón de reinicio
-        restartBtn.addEventListener('click', startAnimation);
-        
-        // Permitir reinicio haciendo clic en cualquier parte
-        document.addEventListener('click', function(e) {
-            if (e.target !== restartBtn && animationPlayed) {
-                startAnimation();
-            }
-        });
     </script>
 </body>
 </html>
